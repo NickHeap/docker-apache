@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# set DLC location
+DLC="/usr/dlc"; export DLC
+
+# Set PROMSGS (if not set)
+PROMSGS=${PROMSGS-$DLC/promsgs}; export PROMSGS
+
+# Set the user working directory - this is a tailored value
+WRKDIR=${WRKDIR-"/usr/local/apache2/logs/"}; export WRKDIR
+
+# load our webspeed vars
+. /usr/local/apache2/webspeed.envvars
+
+$DLC/bin/cgiip -i $WEBSPEED_SERVICE -f /usr/dlc/properties/ubroker.properties
