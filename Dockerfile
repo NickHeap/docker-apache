@@ -1,4 +1,14 @@
+# use ws install to get the files we need
+FROM oe117-ws:latest AS ws_install
+
+# our main stage
 FROM httpd:2.4
+
+# copy the messenger files
+COPY --from=ws_install /usr/dlc/promsgs /usr/dlc/
+COPY --from=ws_install /usr/dlc/bin/cgiip /usr/dlc/bin/
+COPY --from=ws_install /usr/dlc/lib/libenhlog.so /usr/dlc/lib/
+COPY --from=ws_install /usr/dlc/properties/ubroker.properties /usr/dlc/properties/
 
 # add our cgi-bin files
 COPY cgi-bin/ /usr/local/apache2/cgi-bin/
@@ -11,9 +21,6 @@ RUN chmod a+x /usr/local/apache2/cgi-bin/printenv
 # copy in our apache config
 COPY conf/ /usr/local/apache2/conf/
 #COPY bin/ /usr/local/apache2/bin/
-
-# copy our required dlc files
-COPY dlc/ /usr/dlc/
 
 # ENV WRKDIR=/usr/local/apache2/logs/ \
 #     DLC=/usr/dlc \
