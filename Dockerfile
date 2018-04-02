@@ -13,6 +13,7 @@ COPY --from=ws_install /usr/dlc/properties/ubroker.properties /usr/dlc/propertie
 # add our cgi-bin files
 COPY cgi-bin/ /usr/local/apache2/cgi-bin/
 RUN chmod a+x /usr/local/apache2/cgi-bin/cgi
+RUN chmod a+x /usr/local/apache2/cgi-bin/cgiip.exe
 
 # make printenv runnable for testing
 RUN sed -i '1s/^/\#\!\/usr\/bin\/perl\n/' /usr/local/apache2/cgi-bin/printenv
