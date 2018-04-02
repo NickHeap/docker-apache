@@ -5,6 +5,19 @@ set -e
 sed "s|hostName=localhost|hostName=${NAMESERVER_HOST}|g;s|5162|${NAMESERVER_PORT}|g;s|loggingLevel=1|loggingLevel=${LOGGING_LEVEL}|g" /usr/dlc/properties/ubroker.properties > /usr/dlc/properties/ubroker.properties.new
 mv /usr/dlc/properties/ubroker.properties.new /usr/dlc/properties/ubroker.properties
 
+# replace our settings in httpd-vhosts
+sed "s|ServerName docker|ServerName ${VHOST_SERVERNAME}|g;s|ServerAlias www.docker|ServerAlias ${VHOST_SERVERALIAS}|g;s|DirectoryIndex |DirectoryIndex ${VHOST_DIRECTORY_INDEX}|g" /usr/local/apache2/conf/extra/httpd-vhosts.conf > /usr/local/apache2/conf/extra/httpd-vhosts.conf.new
+mv /usr/local/apache2/conf/extra/httpd-vhosts.conf.new /usr/local/apache2/conf/extra/httpd-vhosts.conf
+
+# do we have a static alias to add?
+if [ ! -z "${VHOST_STATIC_ALIAS}" ]
+then
+  sed "s|    Alias|    Alias \"${VHOST_STATIC_ALIAS}\" \"${VHOST_STATIC_PATH}\"|g" /usr/local/apache2/conf/extra/httpd-vhosts.conf > /usr/local/apache2/conf/extra/httpd-vhosts.conf.new
+else
+  sed "s|    Alias||g" /usr/local/apache2/conf/extra/httpd-vhosts.conf > /usr/local/apache2/conf/extra/httpd-vhosts.conf.new
+fi
+mv /usr/local/apache2/conf/extra/httpd-vhosts.conf.new /usr/local/apache2/conf/extra/httpd-vhosts.conf
+
 # Apache gets grumpy about PID files pre-existing
 rm -f /usr/local/apache2/logs/httpd.pid
 
