@@ -20,18 +20,19 @@ RUN chmod a+x /usr/local/apache2/cgi-bin/printenv
 
 # copy in our apache config
 COPY conf/ /usr/local/apache2/conf/
-#COPY bin/ /usr/local/apache2/bin/
 
-# ENV WRKDIR=/usr/local/apache2/logs/ \
-#     DLC=/usr/dlc \
-#     PROMSGS=/usr/dlc/promsgs \
-#     WEBSPEED_DOMAIN=webspeed \
-#     WEBSPEED_HOST=docker.for.win.localhost \
-#     WEBSPEED_SERVICE=wsbroker1 \
-#     WEBSPEED_PORT=3055
+# use our own version of the startup script
+COPY httpd-foreground /usr/local/bin/
+RUN chmod a+x /usr/local/bin/httpd-foreground
 
 # allow logs and htdocs to be 
 VOLUME /usr/local/apache2/logs/
 VOLUME /usr/local/apache2/htdocs/
+
+ENV \
+ NAMESERVER_HOST="host.docker.internal" \
+ NAMESERVER_PORT="5162" \
+ WEBSPEED_SERVICE="wsbroker1" \
+ LOGGING_LEVEL="5"
 
 EXPOSE 80 3301-3325/udp

@@ -9,7 +9,18 @@ PROMSGS=${PROMSGS-$DLC/promsgs}; export PROMSGS
 # Set the user working directory - this is a tailored value
 WRKDIR=${WRKDIR-"/usr/local/apache2/logs/"}; export WRKDIR
 
-# load our webspeed vars
-. /usr/local/apache2/webspeed.envvars
+# echo "DLC=${DLC}" >> /usr/local/apache2/logs/msgr.log
+# echo "PROMSGS=${PROMSGS}" >> /usr/local/apache2/logs/msgr.log
+# echo "WRKDIR=${WRKDIR}" >> /usr/local/apache2/logs/msgr.log
+# echo "LOGGING_LEVEL=${LOGGING_LEVEL}" >> /usr/local/apache2/logs/msgr.log
 
-$DLC/bin/cgiip -i $WEBSPEED_SERVICE -f /usr/dlc/properties/ubroker.properties
+# make sure our vars are set
+NAMESERVER_HOST=${NAMESERVER_HOST-host.docker.internal}; export NAMESERVER_HOST
+NAMESERVER_PORT=${NAMESERVER_PORT-5162}; export NAMESERVER_PORT
+WEBSPEED_SERVICE=${WEBSPEED_SERVICE-wsbroker1}; export WEBSPEED_SERVICE
+
+# echo "NAMESERVER_HOST=${NAMESERVER_HOST}" >> /usr/local/apache2/logs/msgr.log
+# echo "NAMESERVER_PORT=${NAMESERVER_PORT}" >> /usr/local/apache2/logs/msgr.log
+# echo "WEBSPEED_SERVICE=${WEBSPEED_SERVICE}" >> /usr/local/apache2/logs/msgr.log
+
+${DLC}/bin/cgiip -i ${WEBSPEED_SERVICE} # -f /usr/dlc/properties/ubroker.properties

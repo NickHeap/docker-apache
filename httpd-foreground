@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+# replace our settings in ubroker.properties
+sed "s|hostName=localhost|hostName=${NAMESERVER_HOST}|g;s|5162|${NAMESERVER_PORT}|g;s|loggingLevel=1|loggingLevel=${LOGGING_LEVEL}|g" /usr/dlc/properties/ubroker.properties > /usr/dlc/properties/ubroker.properties.new
+mv /usr/dlc/properties/ubroker.properties.new /usr/dlc/properties/ubroker.properties
+
+# Apache gets grumpy about PID files pre-existing
+rm -f /usr/local/apache2/logs/httpd.pid
+
+exec httpd -DFOREGROUND
