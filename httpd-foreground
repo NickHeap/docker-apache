@@ -7,7 +7,7 @@ mv /usr/dlc/properties/ubroker.properties.new /usr/dlc/properties/ubroker.proper
 
 # replace our settings in httpd-vhosts
 sed "s|ServerName localhost|ServerName ${VHOST_SERVERNAME}|g;s|localhost-error|${VHOST_SERVERNAME}-error|g;s|localhost-access|${VHOST_SERVERNAME}-access|g;s|ServerAlias www.localhost|ServerAlias ${VHOST_SERVERALIAS}|g;s|    DirectoryIndex|    DirectoryIndex ${VHOST_DIRECTORY_INDEX}|g" /usr/local/apache2/conf/extra/httpd-vhosts.conf > /usr/local/apache2/conf/extra/httpd-vhosts.conf.new
-mv /usr/local/apache2/conf/extra/httpd-vhosts.conf.new /usr/local/apache2/conf/extra/httpd-vhosts.conf
+mv /usr/local/apache2/conf/extra/httpd-vhosts.conf.new /usr/local/apache2/conf/extra/httpd-vhosts.conf || true
 
 # do we have a static alias to add?
 if [ ! -z "${VHOST_STATIC_ALIAS}" ]
@@ -16,7 +16,7 @@ then
 else
   sed "s|    Alias||g" /usr/local/apache2/conf/extra/httpd-vhosts.conf > /usr/local/apache2/conf/extra/httpd-vhosts.conf.new
 fi
-mv /usr/local/apache2/conf/extra/httpd-vhosts.conf.new /usr/local/apache2/conf/extra/httpd-vhosts.conf
+mv /usr/local/apache2/conf/extra/httpd-vhosts.conf.new /usr/local/apache2/conf/extra/httpd-vhosts.conf || true
 
 # Apache gets grumpy about PID files pre-existing
 rm -f /usr/local/apache2/logs/httpd.pid
