@@ -6,7 +6,7 @@ sed "s|hostName=localhost|hostName=${NAMESERVER_HOST}|g;s|5162|${NAMESERVER_PORT
 mv /usr/dlc/properties/ubroker.properties.new /usr/dlc/properties/ubroker.properties
 
 # replace our settings in httpd-vhosts
-sed "s|ServerName docker|ServerName ${VHOST_SERVERNAME}|g;s|ServerAlias www.docker|ServerAlias ${VHOST_SERVERALIAS}|g;s|DirectoryIndex |DirectoryIndex ${VHOST_DIRECTORY_INDEX}|g" /usr/local/apache2/conf/extra/httpd-vhosts.conf > /usr/local/apache2/conf/extra/httpd-vhosts.conf.new
+sed "s|ServerName localhost|ServerName ${VHOST_SERVERNAME}|g;s|localhost-error|${VHOST_SERVERNAME}-error|g;s|localhost-access|${VHOST_SERVERNAME}-access|g;s|ServerAlias www.localhost|ServerAlias ${VHOST_SERVERALIAS}|g;s|    DirectoryIndex|    DirectoryIndex ${VHOST_DIRECTORY_INDEX}|g" /usr/local/apache2/conf/extra/httpd-vhosts.conf > /usr/local/apache2/conf/extra/httpd-vhosts.conf.new
 mv /usr/local/apache2/conf/extra/httpd-vhosts.conf.new /usr/local/apache2/conf/extra/httpd-vhosts.conf
 
 # do we have a static alias to add?
