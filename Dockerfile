@@ -42,3 +42,5 @@ ENV \
  VHOST_STATIC_PATH=""
 
 EXPOSE 80 3301-3325/udp
+
+CMD ["httpd-foreground"]

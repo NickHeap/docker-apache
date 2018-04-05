@@ -14,4 +14,11 @@ WRKDIR=${WRKDIR-"/usr/local/apache2/logs/"}; export WRKDIR
 # echo "WRKDIR=${WRKDIR}" >> /usr/local/apache2/logs/msgr.log
 # echo "LOGGING_LEVEL=${LOGGING_LEVEL}" >> /usr/local/apache2/logs/msgr.log
 
+# make sure our vars are set
+NAMESERVER_HOST=${NAMESERVER_HOST-host.docker.internal}; export NAMESERVER_HOST
+NAMESERVER_PORT=${NAMESERVER_PORT-5162}; export NAMESERVER_PORT
+
+#echo "NAMESERVER_HOST=${NAMESERVER_HOST}" >> /usr/local/apache2/logs/msgr.log
+#echo "NAMESERVER_PORT=${NAMESERVER_PORT}" >> /usr/local/apache2/logs/msgr.log
+
 ${DLC}/bin/cgiip
