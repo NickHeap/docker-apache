@@ -1,0 +1,1 @@
+docker build -t oe117-apache:0.1 -t oe117-apache:latest .
